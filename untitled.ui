@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>925</width>
-    <height>660</height>
+    <width>959</width>
+    <height>666</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -43,8 +43,8 @@
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>520</x>
-      <y>580</y>
+      <x>510</x>
+      <y>590</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -69,18 +69,18 @@
    <widget class="QWidget" name="widget" native="true">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>50</y>
-      <width>621</width>
-      <height>491</height>
+      <x>30</x>
+      <y>30</y>
+      <width>921</width>
+      <height>551</height>
      </rect>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
-      <x>384</x>
-      <y>580</y>
+      <x>380</x>
+      <y>590</y>
       <width>101</width>
       <height>23</height>
      </rect>
@@ -89,13 +89,26 @@
      <string>Очистить область</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton_3">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>590</y>
+      <width>151</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Временная реализация</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>925</width>
+     <width>959</width>
      <height>21</height>
     </rect>
    </property>

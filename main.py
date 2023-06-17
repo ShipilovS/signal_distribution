@@ -11,14 +11,26 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 BTN = None
-class MplCanvas(FigureCanvas):
+
+class ModelCanvas(FigureCanvas):
     def __init__(self, data, bins, new_sequence):
-        fig, ax = plt.subplots(ncols=2, figsize=(10, 4))
+        fig, ax = plt.subplots(ncols=2, figsize=(10, 5))
         ax[0].hist(data, bins=bins)
-        ax[0].set_title('Original Signal')
+        ax[0].set_title('Исходный сигнал')
         ax[1].hist(new_sequence, bins=bins)
-        ax[1].set_title('Modeled Signal')
-        super(MplCanvas, self).__init__(fig)
+        ax[1].set_title('Промоделированный сигнал')
+        plt.grid()
+        super(ModelCanvas, self).__init__(fig)
+
+
+class TimeModelCanvas(FigureCanvas):
+    def __init__(self, data, bins, new_sequence):
+        fig, ax = plt.subplots(ncols=1, figsize=(10, 5))
+        # ax[0].hist(new_sequence, bins=bins)
+        # ax[0].set_title('Промоделированный сигнал')
+        plt.plot(np.arange(len(data)), data)
+        plt.grid()
+        super(TimeModelCanvas, self).__init__(fig)
 
 
 class ExampleApp(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -28,8 +40,8 @@ class ExampleApp(QtWidgets.QMainWindow, Ui_MainWindow):
         # self.radioButton.clicked.connect(self.check)
         self.pushButton.clicked.connect(self.analyze)
         self.pushButton_2.clicked.connect(self.clear)
+        self.pushButton_3.clicked.connect(self.time_realize)
         self.layout = QtWidgets.QVBoxLayout()
-
 
     def analyze(self):
         if self.radioButton.isChecked():
@@ -42,11 +54,6 @@ class ExampleApp(QtWidgets.QMainWindow, Ui_MainWindow):
             data = init_norm()
             bins, new_sequence = func(data)
 
-        fig, ax = plt.subplots(ncols=2, figsize=(10, 4))
-        ax[0].hist(data, bins=bins)
-        ax[0].set_title('Original Signal')
-        ax[1].hist(new_sequence, bins=bins)
-        ax[1].set_title('Modeled Signal')
 
         # scene = QtWidgets.QGraphicsScene()
         # view = self.graphicsView
@@ -57,7 +64,7 @@ class ExampleApp(QtWidgets.QMainWindow, Ui_MainWindow):
         # self.canvas.draw()
         # plt.show()
         
-        sc = MplCanvas(data, bins, new_sequence)
+        sc = ModelCanvas(data, bins, new_sequence)
         toolbar = NavigationToolbar(sc, self)
 
         self.layout.addWidget(toolbar)
@@ -66,6 +73,26 @@ class ExampleApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.widget.setLayout(self.layout)
         self.show()
 
+    def time_realize(self):
+        if self.radioButton.isChecked():
+            data = init(size=200)
+            bins, new_sequence = func(data)
+        elif self.radioButton_2.isChecked():
+            data = init_gamma(size=200)
+            bins, new_sequence = func(data)
+        elif self.radioButton_3.isChecked():
+            data = init_norm(size=200)
+            bins, new_sequence = func(data)
+
+        sc = TimeModelCanvas(data, bins, new_sequence)
+        toolbar = NavigationToolbar(sc, self)
+
+        self.layout.addWidget(toolbar)
+        self.layout.addWidget(sc)
+   
+        self.widget.setLayout(self.layout)
+        self.show()
+        
     def clear(self):
         for i in reversed(range(self.layout.count())): 
             self.layout.itemAt(i).widget().deleteLater()

@@ -5,23 +5,21 @@ import random
 import markovify
 
 
-def init():
+def init(size=10000):
     nu = 0.5
     mean, var, skew, kurt = nakagami.stats(nu, moments='mvsk')
     print(mean, var, skew, kurt)
-    r = nakagami.rvs(nu, size=10000)
+    r = nakagami.rvs(nu, size=size)
     return r
 
-
-def init_gamma():
+def init_gamma(size=10000):
     a = 1.99
     mean, var, skew, kurt = gamma.stats(a, moments='mvsk')
-    gamma_values = gamma.rvs(a, size=1000)
+    gamma_values = gamma.rvs(a, size=size)
     return gamma_values
 
-
-def init_norm():
-    norm_values = norm.rvs(size=10000)
+def init_norm(size=10000):
+    norm_values = norm.rvs(size=size)
     return norm_values
 
 # Функция для создания односвязной марковской цепи
@@ -48,7 +46,7 @@ def create_markov_chain(data, order=1):
     return transition_matrix, bins
 
 # Функция для генерации новой последовательности на базе односвязной марковской модели
-def generate_sequence(transition_matrix, bins, length=1000):
+def generate_sequence(transition_matrix, bins, length=10000):
     # Выбираем случайный стартовый бин
     bin_index = np.random.choice(np.arange(len(bins)))
     sequence = [bins[bin_index]]
@@ -56,10 +54,10 @@ def generate_sequence(transition_matrix, bins, length=1000):
     # Генерируем новую последовательность
     for i in range(1, length):
         # Выбираем следующий бин на основе матрицы переходных вероятностей
-        prob = transition_matrix[bin_index]
-        next_bin_index = np.random.choice(np.arange(len(bins)), p=prob)
-        bin_index = next_bin_index
-        sequence.append(bins[bin_index])
+            prob = transition_matrix[bin_index]
+            next_bin_index = np.random.choice(np.arange(len(bins)), p=prob)
+            bin_index = next_bin_index
+            sequence.append(bins[bin_index])
 
     return sequence
 
