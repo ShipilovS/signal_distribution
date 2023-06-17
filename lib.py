@@ -16,7 +16,7 @@ def init():
 def init_gamma():
     a = 1.99
     mean, var, skew, kurt = gamma.stats(a, moments='mvsk')
-    gamma_values = gamma.rvs(a, size=10000)
+    gamma_values = gamma.rvs(a, size=1000)
     return gamma_values
 
 
@@ -48,7 +48,7 @@ def create_markov_chain(data, order=1):
     return transition_matrix, bins
 
 # Функция для генерации новой последовательности на базе односвязной марковской модели
-def generate_sequence(transition_matrix, bins, length=10000):
+def generate_sequence(transition_matrix, bins, length=1000):
     # Выбираем случайный стартовый бин
     bin_index = np.random.choice(np.arange(len(bins)))
     sequence = [bins[bin_index]]

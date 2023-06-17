@@ -27,6 +27,8 @@ class ExampleApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         # self.radioButton.clicked.connect(self.check)
         self.pushButton.clicked.connect(self.analyze)
+        self.pushButton_2.clicked.connect(self.clear)
+        self.layout = QtWidgets.QVBoxLayout()
 
 
     def analyze(self):
@@ -58,14 +60,16 @@ class ExampleApp(QtWidgets.QMainWindow, Ui_MainWindow):
         sc = MplCanvas(data, bins, new_sequence)
         toolbar = NavigationToolbar(sc, self)
 
-        layout = QtWidgets.QVBoxLayout()
-        layout.addWidget(toolbar)
-        layout.addWidget(sc)
+        self.layout.addWidget(toolbar)
+        self.layout.addWidget(sc)
    
-        self.widget.setLayout(layout)
+        self.widget.setLayout(self.layout)
         self.show()
 
-
+    def clear(self):
+        for i in reversed(range(self.layout.count())): 
+            self.layout.itemAt(i).widget().deleteLater()
+            # self.layout.itemAt(i).widget().setParent(None)
 
 app = QtWidgets.QApplication(sys.argv) 
 window = ExampleApp()  
