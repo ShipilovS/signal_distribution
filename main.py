@@ -7,9 +7,20 @@ from matplotlib.backends.backend_qtagg import (
     FigureCanvas, NavigationToolbar2QT as NavigationToolbar)
 from matplotlib.figure import Figure
 import sys
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 BTN = None
- 
+class MplCanvas(FigureCanvas):
+    def __init__(self, data, bins, new_sequence):
+        fig, ax = plt.subplots(ncols=2, figsize=(10, 4))
+        ax[0].hist(data, bins=bins)
+        ax[0].set_title('Original Signal')
+        ax[1].hist(new_sequence, bins=bins)
+        ax[1].set_title('Modeled Signal')
+        super(MplCanvas, self).__init__(fig)
+
+
 class ExampleApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
@@ -34,7 +45,25 @@ class ExampleApp(QtWidgets.QMainWindow, Ui_MainWindow):
         ax[0].set_title('Original Signal')
         ax[1].hist(new_sequence, bins=bins)
         ax[1].set_title('Modeled Signal')
-        plt.show()
+
+        # scene = QtWidgets.QGraphicsScene()
+        # view = self.graphicsView
+        # print(view)
+        # canvas = FigureCanvas(fig)
+        # proxy_widget = scene.addWidget(canvas)
+        # view.show()
+        # self.canvas.draw()
+        # plt.show()
+        
+        sc = MplCanvas(data, bins, new_sequence)
+        toolbar = NavigationToolbar(sc, self)
+
+        layout = QtWidgets.QVBoxLayout()
+        layout.addWidget(toolbar)
+        layout.addWidget(sc)
+   
+        self.widget.setLayout(layout)
+        self.show()
 
 
 
