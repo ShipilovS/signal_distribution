@@ -43,14 +43,14 @@
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>510</x>
+      <x>390</x>
       <y>590</y>
-      <width>75</width>
+      <width>171</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
-     <string>Анализ</string>
+     <string>Одномерное распределение</string>
     </property>
    </widget>
    <widget class="QRadioButton" name="radioButton_3">
@@ -79,7 +79,7 @@
    <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
-      <x>380</x>
+      <x>280</x>
       <y>590</y>
       <width>101</width>
       <height>23</height>
@@ -92,7 +92,7 @@
    <widget class="QPushButton" name="pushButton_3">
     <property name="geometry">
      <rect>
-      <x>600</x>
+      <x>570</x>
       <y>590</y>
       <width>151</width>
       <height>23</height>
@@ -105,7 +105,7 @@
    <widget class="QPushButton" name="pushButton_4">
     <property name="geometry">
      <rect>
-      <x>760</x>
+      <x>730</x>
       <y>590</y>
       <width>151</width>
       <height>23</height>
