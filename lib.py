@@ -68,7 +68,7 @@ def func(data):
     new_sequence = generate_sequence(transition_matrix, bins, len(data))
     return bins, new_sequence
 
-def create_markov_chain_2d(data, num_bins=10000, order=1):
+def create_markov_chain_2d(data, num_bins=1000, order=1):
     min_val = np.amin(data)
     max_val = np.amax(data)
 
@@ -90,7 +90,7 @@ def create_markov_chain_2d(data, num_bins=10000, order=1):
 
     return transition_matrix, bins
 
-def generate_sequence_2d(transition_matrix, bins, length=100000):
+def generate_sequence_2d(transition_matrix, bins, length=10000):
     num_bins = transition_matrix.shape[0]
 
     bin_index = np.random.choice(np.arange(num_bins))

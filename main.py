@@ -48,7 +48,7 @@ class Analyze2dModelCanvas(FigureCanvas):
         ax1.set_title('Исходный сигнал')
 
         ax2 = fig.add_subplot(122, projection='3d')
-        hist, xedges, yedges = np.histogram2d(new_sequence[:-1], new_sequence[1:], bins=100)
+        hist, xedges, yedges = np.histogram2d(new_sequence[:-1], new_sequence[1:], bins=[100, 100])
         xpos, ypos = np.meshgrid(xedges[:-1] + xedges[1:], yedges[:-1] + yedges[1:])
         xpos = xpos.flatten() / 2.
         ypos = ypos.flatten() / 2.
@@ -60,10 +60,6 @@ class Analyze2dModelCanvas(FigureCanvas):
         ax2.set_title('Промоделированный сигнал')
         plt.grid()
         super(Analyze2dModelCanvas, self).__init__(fig)
-
-
-
-
 
 class ExampleApp(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -132,27 +128,26 @@ class ExampleApp(QtWidgets.QMainWindow, Ui_MainWindow):
         loc = 0
         scale = 1
         if self.radioButton.isChecked():
-            data = init()
             x, y = nakagami.rvs(shape, loc, scale, size=(num_samples, 2)).T
             transition_matrix, bins = create_markov_chain_2d(np.concatenate((x, y)))
-            new_sequence = generate_sequence_2d(transition_matrix, bins, length=100000)
-            bins, new_sequence = func(data)
-            sc = Analyze2dModelCanvas(x, y, new_sequence)
-            toolbar = NavigationToolbar(sc, self)
+            new_sequence = generate_sequence_2d(transition_matrix, bins, length=num_samples)
+        elif self.radioButton_2.isChecked():
+            x, y = gamma.rvs(shape, loc, scale, size=(num_samples, 2)).T
+            transition_matrix, bins = create_markov_chain_2d(np.concatenate((x, y)))
+            new_sequence = generate_sequence_2d(transition_matrix, bins, length=num_samples)
+        elif self.radioButton_3.isChecked():
+            x, y = norm.rvs(size=(num_samples, 2)).T
+            transition_matrix, bins = create_markov_chain_2d(np.concatenate((x, y)))
+            new_sequence = generate_sequence_2d(transition_matrix, bins, length=num_samples)
 
-            self.layout.addWidget(toolbar)
-            self.layout.addWidget(sc)
+        sc = Analyze2dModelCanvas(x, y, new_sequence)
+        toolbar = NavigationToolbar(sc, self)
 
-            self.widget.setLayout(self.layout)
-            self.show()
-        # elif self.radioButton_2.isChecked():
-        #     data = init_gamma()
-        #     bins, new_sequence = func(data)
-        # elif self.radioButton_3.isChecked():
-        #     data = init_norm()
-        #     bins, new_sequence = func(data)
+        self.layout.addWidget(toolbar)
+        self.layout.addWidget(sc)
 
-
+        self.widget.setLayout(self.layout)
+        self.show()
        
 
         
