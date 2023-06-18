@@ -17,19 +17,24 @@ class ModelCanvas(FigureCanvas):
         fig, ax = plt.subplots(ncols=2, figsize=(10, 5))
         ax[0].hist(data, bins=bins)
         ax[0].set_title('Исходный сигнал')
+        ax[0].grid()
         ax[1].hist(new_sequence, bins=bins)
         ax[1].set_title('Промоделированный сигнал')
-        plt.grid()
+        ax[1].grid()
         super(ModelCanvas, self).__init__(fig)
 
 
 class TimeModelCanvas(FigureCanvas):
     def __init__(self, data, bins, new_sequence):
-        fig, ax = plt.subplots(ncols=1, figsize=(10, 5))
+        fig, ax = plt.subplots(ncols=2, figsize=(10, 5))
         # ax[0].hist(new_sequence, bins=bins)
         # ax[0].set_title('Промоделированный сигнал')
-        plt.plot(np.arange(len(data)), data)
-        plt.grid()
+        ax[0].plot(data)
+        ax[0].set_title('Исходный сигнал')
+        ax[0].grid()
+        ax[1].plot(new_sequence)
+        ax[1].set_title('Промоделированный сигнал')
+        ax[1].grid()
         super(TimeModelCanvas, self).__init__(fig)
 
 class Analyze2dModelCanvas(FigureCanvas):

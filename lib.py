@@ -46,7 +46,7 @@ def create_markov_chain(data, order=1):
     return transition_matrix, bins
 
 # Функция для генерации новой последовательности на базе односвязной марковской модели
-def generate_sequence(transition_matrix, bins, length=10000):
+def generate_sequence(transition_matrix, bins, length=10):
     # Выбираем случайный стартовый бин
     bin_index = np.random.choice(np.arange(len(bins)))
     sequence = [bins[bin_index]]
@@ -55,9 +55,11 @@ def generate_sequence(transition_matrix, bins, length=10000):
     for i in range(1, length):
         # Выбираем следующий бин на основе матрицы переходных вероятностей
             prob = transition_matrix[bin_index]
-            next_bin_index = np.random.choice(np.arange(len(bins)), p=prob)
-            bin_index = next_bin_index
-            sequence.append(bins[bin_index])
+
+            if not np.all(np.isnan(prob)):
+                next_bin_index = np.random.choice(np.arange(len(bins)), p=prob)
+                bin_index = next_bin_index
+                sequence.append(bins[bin_index])
 
     return sequence
 
@@ -90,7 +92,7 @@ def create_markov_chain_2d(data, num_bins=1000, order=1):
 
     return transition_matrix, bins
 
-def generate_sequence_2d(transition_matrix, bins, length=10000):
+def generate_sequence_2d(transition_matrix, bins, length=100):
     num_bins = transition_matrix.shape[0]
 
     bin_index = np.random.choice(np.arange(num_bins))
@@ -98,12 +100,13 @@ def generate_sequence_2d(transition_matrix, bins, length=10000):
 
     for i in range(1, length):
         prob = transition_matrix[bin_index]
-        next_bin_index = np.random.choice(np.arange(num_bins), p=prob)
-        if next_bin_index == num_bins:
-           next_bin_index -= 1
-        bin_index = next_bin_index
-        if bin_index == num_bins:
-           bin_index -= 1
-        sequence.append(bins[bin_index])
+        if not np.all(np.isnan(prob)):
+            next_bin_index = np.random.choice(np.arange(num_bins), p=prob)
+            if next_bin_index == num_bins:
+                next_bin_index -= 1
+            bin_index = next_bin_index
+            if bin_index == num_bins:
+                bin_index -= 1
+            sequence.append(bins[bin_index])
 
     return sequence
