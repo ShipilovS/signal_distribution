@@ -16,7 +16,7 @@ class ModelCanvas(FigureCanvas):
     def __init__(self, data, bins, new_sequence):
         fig, ax = plt.subplots(ncols=2, figsize=(10, 5))
         ax[0].hist(data, bins=bins)
-        ax[0].set_title('Исходный сигнал')
+        ax[0].set_title('Входные данные')
         ax[0].grid()
         ax[1].hist(new_sequence, bins=bins)
         ax[1].set_title('Промоделированный сигнал')
@@ -30,7 +30,7 @@ class TimeModelCanvas(FigureCanvas):
         # ax[0].hist(new_sequence, bins=bins)
         # ax[0].set_title('Промоделированный сигнал')
         ax[0].plot(data)
-        ax[0].set_title('Исходный сигнал')
+        ax[0].set_title('Входные данные')
         ax[0].grid()
         ax[1].plot(new_sequence)
         ax[1].set_title('Промоделированный сигнал')
@@ -50,7 +50,7 @@ class Analyze2dModelCanvas(FigureCanvas):
         dy = yedges[1] - yedges[0]
         dz = hist.flatten()
         ax1.bar3d(xpos, ypos, zpos, dx, dy, dz, zsort='average')
-        ax1.set_title('Исходный сигнал')
+        ax1.set_title('Входные данные')
 
         ax2 = fig.add_subplot(122, projection='3d')
         hist, xedges, yedges = np.histogram2d(new_sequence[:-1], new_sequence[1:], bins=[100, 100])
@@ -151,6 +151,8 @@ class ExampleApp(QtWidgets.QMainWindow, Ui_MainWindow):
         self.layout.addWidget(toolbar)
         self.layout.addWidget(sc)
 
+        # self.textBrowser.setText(str(result))
+        
         self.widget.setLayout(self.layout)
         self.show()
        

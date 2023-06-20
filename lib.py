@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.stats import nakagami
 from scipy.stats import gamma, norm
+from scipy.stats import kurtosis
 import random
 import markovify
 
@@ -89,7 +90,8 @@ def create_markov_chain_2d(data, num_bins=1000, order=1):
 
     row_sums = transition_matrix.sum(axis=1)
     transition_matrix /= row_sums[:,np.newaxis]
-
+    print(f"Входные данные: \n")
+    get_info_in_console(data)
     return transition_matrix, bins
 
 def generate_sequence_2d(transition_matrix, bins, length=100):
@@ -109,4 +111,28 @@ def generate_sequence_2d(transition_matrix, bins, length=100):
                 bin_index -= 1
             sequence.append(bins[bin_index])
 
+    print(f"Промоделированный сигнал: \n")
+    get_info_in_console(sequence)
+
     return sequence
+
+
+def get_info_in_console(sequence):
+    mean = np.mean(sequence)
+    variance = np.var(sequence)
+    module = np.sqrt(variance)
+    media = np.median(sequence)
+    print("Мат. ожидание: ", mean)
+    print("Дисперсия: ", variance)
+    print("Мода: ", module)
+    print("Медиана: ", media)
+
+    corr_coef_new = np.corrcoef(sequence[:-1], sequence[1:])[0][1]
+    print("Коэффициент корреляции сгенерированного сигнала: ", corr_coef_new)
+
+    kurtosis_new = kurtosis(sequence)
+    print("Эксцесс сгенерированного сигнала: ", kurtosis_new)
+
+    stdgen = np.std(sequence)
+    print("Стандартное отклонение сигнала: ", stdgen)
+    print('\n\n')
