@@ -44,6 +44,9 @@ def create_markov_chain(data, order=1):
     row_sums = transition_matrix.sum(axis=1)
     transition_matrix /= row_sums[:, np.newaxis]
 
+    print(f"Входные данные: \n")
+    get_info_in_console_1d(data)
+
     return transition_matrix, bins
 
 # Функция для генерации новой последовательности на базе односвязной марковской модели
@@ -61,6 +64,9 @@ def generate_sequence(transition_matrix, bins, length=10):
                 next_bin_index = np.random.choice(np.arange(len(bins)), p=prob)
                 bin_index = next_bin_index
                 sequence.append(bins[bin_index])
+
+    print(f"Промоделированный сигнал: \n")
+    get_info_in_console_1d(sequence)
 
     return sequence
 
@@ -136,3 +142,21 @@ def get_info_in_console(sequence):
     stdgen = np.std(sequence)
     print("Стандартное отклонение сигнала: ", stdgen)
     print('\n\n')
+
+def get_info_in_console_1d(data):
+    mean_new = np.mean(data)
+    variance_new = np.var(data)
+    mode_new = np.sqrt(np.var(data))
+    median_new = np.median(data)
+    corr_coef_new = np.corrcoef(data[:-1], data[1:])[0][1]
+    kurtosis_new = kurtosis(data)
+    std_dev_new = np.sqrt(variance_new)
+
+    print("Мат. ожидание сигнала: ", mean_new)
+    print("Дисперсия сигнала: ", variance_new)
+    print("Мода сигнала: ", mode_new)
+    print("Медиана сигнала: ", median_new)
+    print("Коэффициент корреляции сигнала: ", corr_coef_new)
+    print("Эксцесс сигнала: ", kurtosis_new)
+    print("Среднеквадратическое отклонение сигнала: ", std_dev_new)
+    print(f"\n\n")
